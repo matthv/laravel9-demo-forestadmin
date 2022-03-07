@@ -6,6 +6,7 @@ use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Car extends Model
 {
@@ -34,5 +35,10 @@ class Car extends Model
     public function check(): BelongsToMany
     {
         return $this->belongsToMany(Check::class);
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(booking::class);
     }
 }
