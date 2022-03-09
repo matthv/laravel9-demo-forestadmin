@@ -4,15 +4,8 @@
     "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/Users/matthieuvideaud/Sites/agents/in-app/laravel-forestadmin"
-        }
-    ],
     "require": {
         "php": "^8.0.2",
-        "forestadmin/laravel-forestadmin": "*",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^2.14.1",
