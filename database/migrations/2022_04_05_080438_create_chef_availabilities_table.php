@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('car_check', function (Blueprint $table) {
+        Schema::create('chef_availabilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('car_id')->constrained();
-            $table->foreignId('check_id')->constrained();
+            $table->foreignId('chef_id')->constrained()->onDelete('cascade');
+            $table->dateTime('available_at');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('car_check');
+        Schema::dropIfExists('chef_availabilities');
     }
 };
