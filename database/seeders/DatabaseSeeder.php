@@ -8,17 +8,14 @@ use App\Models\Category;
 use App\Models\Check;
 use App\Models\Chef;
 use App\Models\ChefAvailability;
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\DeliveryMen;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
-use Database\Factories\OrderFactory;
-use Faker\Factory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +29,7 @@ class DatabaseSeeder extends Seeder
         User::factory(50)->create();
         Product::factory(50)->create();
         Customer::factory(50)->create();
+        Company::factory(50)->create();
         Order::factory(100)->create();
 
         $products = Product::all();
