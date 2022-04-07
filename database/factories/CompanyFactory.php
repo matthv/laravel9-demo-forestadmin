@@ -23,6 +23,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'status' => $this->faker->randomElement(['deactivate', 'live'])
         ];
     }
 }

@@ -26,6 +26,7 @@ class CustomerFactory extends Factory
             'lastname'  => $this->faker->lastName(),
             'address'   => $this->faker->address(),
             'phone'     => $this->faker->phoneNumber(),
+            'stripe_id' => $this->faker->uuid(),
         ];
     }
 }

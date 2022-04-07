@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('address');
             $table->string('phone');
+            $table->string('stripe_id');
             $table->timestamps();
         });
     }

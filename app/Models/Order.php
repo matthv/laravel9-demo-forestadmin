@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +18,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, ForestCollection;
+
+    /**
+     * @return SmartAction
+     */
+    public function refundOrder(): SmartAction
+    {
+        return $this->smartAction('single', 'refund order');
+    }
 
     /**
      * @return BelongsTo
