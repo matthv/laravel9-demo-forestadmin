@@ -27,6 +27,7 @@ class CustomerFactory extends Factory
             'address'   => $this->faker->address(),
             'phone'     => $this->faker->phoneNumber(),
             'stripe_id' => $this->faker->uuid(),
+            'country' => $this->faker->randomElement(['FR', 'EN', 'UK']),
         ];
     }
 }

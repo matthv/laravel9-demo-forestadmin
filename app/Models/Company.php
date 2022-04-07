@@ -4,6 +4,7 @@ namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartActionField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -76,5 +77,97 @@ class Company extends Model
                     'description' => 'ID card or passport if the document has been issued in the EU, EFTA, or EEA / ID card or passport + resident permit or driving licence if the document has been issued outside the EU, EFTA, or EEA of the legal representative of your company'
                 ]
             );
+    }
+
+    /**
+     * @return SmartAction
+     */
+    public function sendInvoice(): SmartAction
+    {
+        return $this->smartAction('single', 'Send invoice')
+            ->addField(
+                [
+                    'field' => 'country',
+                    'type' => 'Enum',
+                    'enums' => [],
+                ]
+            )
+            ->addField(
+                [
+                    'field' => 'city',
+                    'type' => 'String',
+                    'hook' => 'onCityChange',
+                ]
+            )
+            ->addField(
+                [
+                    'field' => 'zipCode',
+                    'type' => 'String',
+                    'hook' => 'onZipCodeChange',
+                ]
+            )
+            ->load(
+                function () {
+                    $fields = $this->getFields();
+                    $fields['country']['enums'] = Company::getEnumsFromDatabaseForThisRecord();
+
+                    return $fields;
+                }
+            )
+            ->change(
+                [
+                    'onCityChange' => function () {
+                        $fields = $this->getFields();
+                        $fields['zipCode']['value'] = Company::getZipCodeFromCity($fields['city']['value']);
+                        $fields['another field'] = (new SmartActionField(
+                            [
+                                'field' => 'another field',
+                                'type'  => 'Boolean',
+                                'hook'  => 'onAnotherFiledChanged'
+                            ]
+                        ))
+                            ->serialize();
+                        return $fields;
+                    },
+                    'onAnotherFiledChanged' => function () {
+                        $fields = $this->getFields();
+                        // Do what you want
+
+                        return $fields;
+                    },
+                    'onZipCodeChange' => function () {
+                        $fields = $this->getFields();
+                        $fields['city']['value'] = Company::getCityFromZipCode($fields['zipCode']['value']);
+
+                        return $fields;
+                    },
+                ]
+            );
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getEnumsFromDatabaseForThisRecord(): array
+    {
+        return ['France', 'Germany', 'USA'];
+    }
+
+    /**
+     * @param string $zipCode
+     * @return string
+     */
+    public static function getCityFromZipCode(string $zipCode): string
+    {
+        return "City for $zipCode";
+    }
+
+    /**
+     * @param string $city
+     * @return string
+     */
+    public static function getZipCodeFromCity(string $city): string
+    {
+        return "Zip code for $city";
     }
 }
