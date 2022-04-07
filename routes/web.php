@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('forest/company', [CompaniesController::class, 'index']);
+Route::get('forest/company/count', [CompaniesController::class, 'count']);
+
+Route::delete('forest/company/{id}', [CompaniesController::class, 'destroy']);
+
+Route::post('forest/user', [UsersController::class, 'store']);
