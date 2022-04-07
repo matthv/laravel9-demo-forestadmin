@@ -14,6 +14,10 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'forest/company/*',
         'forest/user',
+        'forest/stats/mrr',
+        'forest/stats/credit-card-country-repartition',
         'forest/*'
+=======
+>>>>>>> Stashed changes
     ];
 }
