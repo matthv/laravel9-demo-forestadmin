@@ -30,3 +30,7 @@ Route::post('forest/stats/mrr', [ChartsController::class, 'mrr']);
 Route::get('stripe/create-charges', [ChartsController::class, 'createCharges']);
 
 Route::post('forest/stats/credit-card-country-repartition', [ChartsController::class, 'creditCardCountryRepartition']);
+
+Route::post('forest/stats/charges-per-day', [ChartsController::class, 'chargesPerDay']);
+
+Route::post('forest/stats/some-objective', [ChartsController::class, 'someObjective']);
