@@ -17,7 +17,5 @@ class VerifyCsrfToken extends Middleware
         'forest/stats/mrr',
         'forest/stats/credit-card-country-repartition',
         'forest/*'
-=======
->>>>>>> Stashed changes
     ];
 }
