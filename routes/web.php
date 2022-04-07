@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\Companies2Controller;
 use App\Http\Controllers\UsersController;
@@ -24,3 +25,8 @@ Route::get('forest/company', [CompaniesController::class, 'index']);
 Route::get('forest/company/count', [CompaniesController::class, 'count']);
 Route::delete('forest/company/{id}', [CompaniesController::class, 'destroy']);
 Route::post('forest/user', [UsersController::class, 'store']);
+
+Route::post('forest/stats/mrr', [ChartsController::class, 'mrr']);
+Route::get('stripe/create-charges', [ChartsController::class, 'createCharges']);
+
+Route::post('forest/stats/credit-card-country-repartition', [ChartsController::class, 'creditCardCountryRepartition']);
