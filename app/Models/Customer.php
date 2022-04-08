@@ -4,6 +4,7 @@ namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +15,38 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Customer extends Model
 {
     use HasFactory, ForestCollection;
+
+    /**
+     * @return SmartField
+     */
+    public function fullname(): SmartField
+    {
+        return $this->smartField(
+            [
+                'type'          => 'String',
+            ]
+        )
+            ->get(fn() => $this->firstname . '-' . $this->lastname);
+    }
+
+    /**
+     * @return SmartField
+     */
+    public function fullAddress(): SmartField
+    {
+        return $this->smartField(
+            [
+                'type'          => 'String',
+            ]
+        )
+            ->get(
+                function () {
+                    $address = Address::firstWhere('customer_id', $this->id);
+
+                    return "$address->address_line1  $address->address_line2 $address->address_city  $address->country";
+                }
+            );
+    }
 
     /**
      * @return SmartAction

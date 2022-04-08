@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * Class CustomerFactory
@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
  * @license  GNU https://www.gnu.org/licences/licences.html
  * @link     https://github.com/ForestAdmin/laravel-forestadmin
  */
-class CustomerFactory extends Factory
+class AddressFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,12 +22,10 @@ class CustomerFactory extends Factory
     public function definition()
     {
         return [
-            'firstname' => $this->faker->firstName(),
-            'lastname'  => $this->faker->lastName(),
-            'address'   => $this->faker->address(),
-            'phone'     => $this->faker->phoneNumber(),
-            'stripe_id' => $this->faker->uuid(),
-            'country'   => $this->faker->country(),
+            'address_line1' => $this->faker->address(),
+            'address_city'  => $this->faker->city(),
+            'country'       => $this->faker->country(),
+            'customer_id'   => Customer::factory()->create()->id,
         ];
     }
 }

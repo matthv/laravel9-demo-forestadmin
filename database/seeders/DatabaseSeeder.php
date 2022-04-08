@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Book;
+use App\Models\Address;
 use App\Models\Booking;
 use App\Models\Car;
 use App\Models\Category;
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(50)->create();
         Product::factory(50)->create();
-        Customer::factory(50)->create();
+        Address::factory(50)->create();
         Company::factory(50)->create();
         Order::factory(100)->create();
 
