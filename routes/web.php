@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BookCompaniesController;
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\Companies2Controller;
@@ -34,3 +36,6 @@ Route::post('forest/stats/credit-card-country-repartition', [ChartsController::c
 Route::post('forest/stats/charges-per-day', [ChartsController::class, 'chargesPerDay']);
 
 Route::post('forest/stats/some-objective', [ChartsController::class, 'someObjective']);
+
+Route::get('forest/book/count', [BooksController::class, 'count']);
+Route::get('forest/book/{id}/relationships/companies/count', [BookCompaniesController::class, 'count']);
