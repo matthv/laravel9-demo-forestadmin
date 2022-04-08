@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Book;
 use App\Models\Booking;
 use App\Models\Car;
 use App\Models\Category;
@@ -55,5 +56,13 @@ class DatabaseSeeder extends Seeder
         DeliveryMen::factory(30)->create();
         Chef::factory(40)->create();
         ChefAvailability::factory(40);
+
+        $companies = Company::all();
+        Book::factory(50)
+            ->create()
+            ->each(function ($book) use ($companies) {
+                $book->companies()->attach($companies->random()->id);
+                $book->companies()->attach($companies->random()->id);
+            });
     }
 }
