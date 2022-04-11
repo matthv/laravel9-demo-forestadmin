@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -18,9 +18,10 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'driver_licence' => $this->faker->regexify('[A-Z]{4}-[0-4]{3}-[A-Z]{2}')
+            'name'           => $this->faker->name(),
+            'email'          => $this->faker->unique()->safeEmail(),
+            'driver_licence' => $this->faker->regexify('[A-Z]{4}-[0-4]{3}-[A-Z]{2}'),
+            'department_id'  => Department::all()->random()->id,
         ];
     }
 }

@@ -7,6 +7,7 @@ use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartActionField;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Company
@@ -169,5 +170,13 @@ class Company extends Model
     public static function getZipCodeFromCity(string $city): string
     {
         return "Zip code for $city";
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function departments(): HasMany
+    {
+        return $this->hasMany(Department::class);
     }
 }

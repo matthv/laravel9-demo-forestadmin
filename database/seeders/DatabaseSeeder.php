@@ -13,6 +13,7 @@ use App\Models\ChefAvailability;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\DeliveryMen;
+use App\Models\Department;
 use App\Models\Menu;
 use App\Models\Order;
 use App\Models\Product;
@@ -28,7 +29,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(50)->create();
         Product::factory(50)->create();
         Address::factory(50)->create();
         Company::factory(50)->create();
@@ -65,5 +65,8 @@ class DatabaseSeeder extends Seeder
                 $book->companies()->attach($companies->random()->id);
                 $book->companies()->attach($companies->random()->id);
             });
+
+        Department::factory(100)->create();
+        User::factory(50)->create();
     }
 }
