@@ -4,6 +4,7 @@ namespace App\Models;
 
 use ForestAdmin\LaravelForestAdmin\Services\Concerns\ForestCollection;
 use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartAction;
+use ForestAdmin\LaravelForestAdmin\Services\SmartFeatures\SmartRelationship;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Order extends Model
 {
     use HasFactory, ForestCollection;
+
+    /**
+     * @return SmartRelationship
+     */
+    public function deliveryAddress(): SmartRelationship
+    {
+        return $this->smartRelationship(
+            [
+                'type' => 'String',
+                'reference' => 'address.id'
+            ]
+        )
+            ->get(
+                function () {
+                    return Order::join('customers', 'customers.id', '=', 'orders.customer_id')
+                        ->join('addresses', 'addresses.customer_id', '=', 'customers.id')
+                        ->where('orders.id', $this->id)
+                        ->first();
+                }
+            );
+    }
 
     /**
      * @return SmartAction

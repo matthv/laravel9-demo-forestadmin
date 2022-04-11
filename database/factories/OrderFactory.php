@@ -23,7 +23,6 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id'      => Customer::all()->random()->id,
-            'delivery_address' => $this->faker->address(),
             'status'           => $this->faker->randomElement(['PENDING', 'FINISH']),
         ];
     }
