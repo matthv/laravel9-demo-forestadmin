@@ -36,10 +36,15 @@ class User extends Model
                 function (Builder $query, $value, string $operator, string $aggregator) {
                     switch ($operator) {
                         case 'equal':
-                            $query->join('departments', 'departments.id', '=', 'users.department_id')
-                                ->join('companies', 'companies.id', '=', 'departments.company_id')
-                                ->whereRaw("LOWER (companies.name) LIKE LOWER(?)", ['%' . $value . '%'], $aggregator)
-                                ;
+                            $query
+                                ->whereIn('users.id', function ($q) use ($value, $aggregator) {
+                                    return $q
+                                        ->select('users.id')
+                                        ->from('companies')
+                                        ->join('departments', 'departments.company_id', '=', 'companies.id')
+                                        ->join('users', 'users.department_id', '=', 'departments.id')
+                                        ->whereRaw("LOWER (companies.name) LIKE LOWER(?)", ['%' . $value . '%'], $aggregator);
+                                });
                             break;
                         default:
                             throw new ForestException(
