@@ -5,6 +5,7 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\Companies2Controller;
+use App\Http\Controllers\CustomerStatsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\OrdersController;
@@ -39,3 +40,5 @@ Route::post('forest/stats/some-objective', [ChartsController::class, 'someObject
 
 Route::get('forest/book/count', [BooksController::class, 'count']);
 Route::get('forest/book/{id}/relationships/companies/count', [BookCompaniesController::class, 'count']);
+
+Route::get('forest/customerStat', [CustomerStatsController::class, 'index']);

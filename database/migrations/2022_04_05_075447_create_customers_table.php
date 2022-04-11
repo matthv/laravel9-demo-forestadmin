@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('email');
             $table->string('address');
             $table->string('phone');
             $table->string('stripe_id');
