@@ -27,7 +27,7 @@ class User extends Model
      */
     public function company(): SmartField
     {
-        return $this->smartField(['type' => 'String', 'is_filterable' => true])
+        return $this->smartField(['type' => 'String'])
             ->get(function() {
                 $company = Company::whereHas('departments', fn($query) => $query->where('departments.id', $this->department->id))->first();
                 return $company->name;
