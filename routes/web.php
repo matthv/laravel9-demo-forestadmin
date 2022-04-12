@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('forest/product/{id}/relationships/buyers', [ProductsController::class, 'buyers']);
 
 Route::post('forest/smart-actions/company_upload-legal-docs', [Companies2Controller::class, 'uploadLegalDocs']);
+Route::post('forest/smart-actions/company_add-new-transaction', [Companies2Controller::class, 'addNewTransaction']);
 Route::post('forest/smart-actions/company_return-and-track', [Companies2Controller::class, 'returnAndTrack']);
 Route::post('forest/smart-actions/company_show-some-activity', [Companies2Controller::class, 'showSomeActivity']);
 Route::post('forest/smart-actions/customer_generate-invoice', [CustomersController::class, 'generateInvoice']);

@@ -19,6 +19,28 @@ class Company extends Model
     /**
      * @return SmartAction
      */
+    public function addNewTransaction(): SmartAction
+    {
+        return $this->smartAction('single', 'Add new transaction')
+            ->addField(
+                [
+                    'field'         => 'Beneficiary company',
+                    'type'          => 'Number',
+                    'reference'     => 'company.id',
+                    'description'   => 'Name of the company who will receive the transaction.',
+                ]
+            )
+            ->addField(
+                [
+                    'field' => 'Amount',
+                    'type'  => 'Number',
+                ]
+            );
+    }
+
+    /**
+     * @return SmartAction
+     */
     public function returnAndTrack(): SmartAction
     {
         return $this->smartAction('single', 'Return and track');
@@ -48,34 +70,34 @@ class Company extends Model
         return $this->smartAction('single', 'Upload Legal Docs')
             ->addField(
                 [
-                    'field' => 'Certificate of Incorporation',
-                    'type' => 'File',
+                    'field'       => 'Certificate of Incorporation',
+                    'type'        => 'File',
                     'is_required' => true,
-                    'description' => 'The legal document relating to the formation of a company or corporation.'
+                    'description' => 'The legal document relating to the formation of a company or corporation.',
                 ]
             )
             ->addField(
                 [
-                    'field' => 'Proof of address',
-                    'type' => 'File',
+                    'field'       => 'Proof of address',
+                    'type'        => 'File',
                     'is_required' => false,
-                    'description' => '(Electricity, Gas, Water, Internet, Landline & Mobile Phone Invoice / Payment Schedule) no older than 3 months of the legal representative of your company'
+                    'description' => '(Electricity, Gas, Water, Internet, Landline & Mobile Phone Invoice / Payment Schedule) no older than 3 months of the legal representative of your company',
                 ]
             )
             ->addField(
                 [
-                    'field' => 'Company bank statement',
-                    'type' => 'File',
+                    'field'       => 'Company bank statement',
+                    'type'        => 'File',
                     'is_required' => true,
-                    'description' => 'PDF including company name as well as IBAN'
+                    'description' => 'PDF including company name as well as IBAN',
                 ]
             )
             ->addField(
                 [
-                    'field' => 'Valid proof of ID',
-                    'type' => 'File',
+                    'field'       => 'Valid proof of ID',
+                    'type'        => 'File',
                     'is_required' => true,
-                    'description' => 'ID card or passport if the document has been issued in the EU, EFTA, or EEA / ID card or passport + resident permit or driving licence if the document has been issued outside the EU, EFTA, or EEA of the legal representative of your company'
+                    'description' => 'ID card or passport if the document has been issued in the EU, EFTA, or EEA / ID card or passport + resident permit or driving licence if the document has been issued outside the EU, EFTA, or EEA of the legal representative of your company',
                 ]
             );
     }
@@ -89,22 +111,22 @@ class Company extends Model
             ->addField(
                 [
                     'field' => 'country',
-                    'type' => 'Enum',
+                    'type'  => 'Enum',
                     'enums' => [],
                 ]
             )
             ->addField(
                 [
                     'field' => 'city',
-                    'type' => 'String',
-                    'hook' => 'onCityChange',
+                    'type'  => 'String',
+                    'hook'  => 'onCityChange',
                 ]
             )
             ->addField(
                 [
                     'field' => 'zipCode',
-                    'type' => 'String',
-                    'hook' => 'onZipCodeChange',
+                    'type'  => 'String',
+                    'hook'  => 'onZipCodeChange',
                 ]
             )
             ->load(
@@ -117,14 +139,14 @@ class Company extends Model
             )
             ->change(
                 [
-                    'onCityChange' => function () {
+                    'onCityChange'          => function () {
                         $fields = $this->getFields();
                         $fields['zipCode']['value'] = Company::getZipCodeFromCity($fields['city']['value']);
                         $fields['another field'] = (new SmartActionField(
                             [
                                 'field' => 'another field',
                                 'type'  => 'Boolean',
-                                'hook'  => 'onAnotherFiledChanged'
+                                'hook'  => 'onAnotherFiledChanged',
                             ]
                         ))
                             ->serialize();
@@ -136,7 +158,7 @@ class Company extends Model
 
                         return $fields;
                     },
-                    'onZipCodeChange' => function () {
+                    'onZipCodeChange'       => function () {
                         $fields = $this->getFields();
                         $fields['city']['value'] = Company::getCityFromZipCode($fields['zipCode']['value']);
 
@@ -178,5 +200,21 @@ class Company extends Model
     public function departments(): HasMany
     {
         return $this->hasMany(Department::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function receivedTransaction(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'beneficiary_company_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function emittedTransaction(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'emitter_company_id');
     }
 }

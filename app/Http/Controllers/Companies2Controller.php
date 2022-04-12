@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Transaction;
+use Faker\Factory;
+use Faker\Generator;
 use ForestAdmin\LaravelForestAdmin\Http\Controllers\ForestController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -13,6 +16,44 @@ use Illuminate\Support\Facades\Storage;
  */
 class Companies2Controller extends ForestController
 {
+    /**
+     * @return JsonResponse
+     */
+    public function addNewTransaction(): JsonResponse
+    {
+        $faker = Factory::create();
+
+        $emitter_company_id = request()->input('data.attributes.ids')[0];
+        $beneficiary_company_id = request()->input('data.attributes.values.Beneficiary company');
+        $amount = request()->input('data.attributes.values.Amount');
+
+        $transaction = new Transaction();
+        $transaction->beneficiary_iban = $faker->iban();
+        $transaction->emitter_iban = $faker->iban();
+        $transaction->vat_amount = 20;
+        $transaction->amount = $amount;
+        $transaction->fee_amount = $faker->numberBetween(10, 100);
+        $transaction->note = '';
+        $transaction->emitter_bic = $faker->swiftBicNumber();
+        $transaction->beneficiary_bic = $faker->swiftBicNumber();
+        $transaction->reference = $faker->text(16);
+        $transaction->status = 'WAITING';
+        $transaction->beneficiary_company_id = $beneficiary_company_id;
+        $transaction->emitter_company_id = $emitter_company_id;
+        $transaction->save();
+
+        // the code below automatically refresh the related data
+        // 'emitted_transactions' on the Companies' Summary View
+        // after submitting the Smart action form.
+        return response()->json(
+            [
+                'success' => 'New transaction emitted',
+                'refresh' => ['relationships' => ['emittedTransaction']]
+            ]
+        );
+    }
+
+
     /**
      * @return JsonResponse|Response
      */
